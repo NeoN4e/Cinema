@@ -3,7 +3,7 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         Title="MainWindow" Height="350" Width="525">
     <Grid Background="#FF1F8B0E">
-        <TreeView x:Name="FilmsView" HorizontalAlignment="Left" Width="197" Margin="5,5,0,37" SelectedItemChanged="FilmsView_SelectedItemChanged">
+        <TreeView x:Name="FilmsView" HorizontalAlignment="Left" Width="197" Margin="5,5,0,37" SelectedItemChanged="FilmsView_SelectedItemChanged" MouseDoubleClick="FilmsView_MouseDoubleClick">
             <TreeView.ItemTemplate>
                 <HierarchicalDataTemplate ItemsSource="{Binding Path=Sessions}">
                     <TextBlock Text="{Binding Path=Name}"/>
@@ -18,13 +18,7 @@
 
             </TreeView.ItemTemplate>
         </TreeView>
-        <ListView x:Name="infoView" Margin="207,5,5,5">
-            <ListView.View>
-                <GridView>
-                    <GridViewColumn/>
-                </GridView>
-            </ListView.View>
-        </ListView>
         <Button Content="new Film" HorizontalAlignment="Left" Margin="5,0,0,5" Width="75" Click="Button_Click" Height="27" VerticalAlignment="Bottom"/>
+        <Grid x:Name="InfoGrid" Margin="207,5,10,10"/>
     </Grid>
 </Window>

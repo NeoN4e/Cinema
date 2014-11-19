@@ -44,8 +44,29 @@ namespace Cinema
             if (e.NewValue is Session)
             {
                 Session s = (e.NewValue as Session);
-                //Віберем только те билеты которые небыли проданны
-                this.infoView.ItemsSource = db.Chairs.SqlQuery("Select * from Chairs Where Id not in(Select Id_Chair from Tickets where Id_Session = @p0)",s.Id).ToList();
+                //Выберем только те билеты которые небыли проданны
+               // this.infoView.ItemsSource = db.Chairs.SqlQuery("Select * from Chairs Where Id not in(Select Id_Chair from Tickets where Id_Session = @p0)",s.Id).ToList();
+
+         
+                this.InfoGrid.Children.Clear();
+                foreach (Chair item in db.Chairs.SqlQuery("Select * from Chairs Where Id_Hall =@p0", s.Id_Hall))
+                {
+
+
+                    Button b = new Button() { Margin = new Thickness(5), Content = item.C };
+                    Grid.SetColumn(b, item.C-1);
+                    Grid.SetRow(b, item.R-1);
+
+                    //Добавим строку
+                    while (this.InfoGrid.RowDefinitions.Count < item.R)
+                        this.InfoGrid.RowDefinitions.Add(new RowDefinition());
+
+                    //Добавим Колонку
+                    while (this.InfoGrid.ColumnDefinitions.Count < item.C)
+                        this.InfoGrid.ColumnDefinitions.Add(new ColumnDefinition());
+
+                    this.InfoGrid.Children.Add(b);
+                }
             }
         }
 
@@ -67,6 +88,19 @@ namespace Cinema
             {
                 MessageBox.Show(ex.Message);
             }
+        }
+
+        private void FilmsView_MouseDoubleClick(object sender, MouseButtonEventArgs e)
+        {
+            if ((sender as TreeView).SelectedItem is Film)
+            {
+                Edit eWindow = new Edit((sender as TreeView).SelectedItem);
+                eWindow.ShowDialog();
+
+                db.SaveChanges();
+            }
+
+
         }
     }
 }
