@@ -10,7 +10,7 @@
                 <ColumnDefinition Width="20"/>
             </Grid.ColumnDefinitions>
         </Grid>
-        <Button Content="Save" HorizontalAlignment="Left" Margin="10,0,0,5" Width="75" Height="22" VerticalAlignment="Bottom"/>
+        <Button Content="Save" HorizontalAlignment="Left" Margin="10,0,0,5" Width="75" Height="22" VerticalAlignment="Bottom" Click="Button_Save"/>
         <Button Content="Close" HorizontalAlignment="Right" Margin="0,0,10,5" VerticalAlignment="Bottom" Width="75" Click="Button_Close"/>
     </Grid>
 

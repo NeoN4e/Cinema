@@ -33,12 +33,12 @@ namespace Cinema
             foreach (System.Reflection.PropertyInfo property in this.edititem.GetType().GetProperties())
             {
 
-                if (!property.Name.Contains("_")) // Исключим ИД
+                if (property.Name.Substring(0,2) != "Id") // Исключим ИД
                 {
                     //Добавим строку
                     this.DataGrid.RowDefinitions.Add(new RowDefinition());
 
-                    //1-я колонка
+                    //1-я колонка Имя Свойства
                     TextBlock tbl = new TextBlock() { Text = property.Name + ":", Margin = new Thickness(5), FontWeight = FontWeights.Bold, VerticalAlignment = System.Windows.VerticalAlignment.Center };
                     
                     Grid.SetColumn(tbl, 0);
@@ -47,27 +47,31 @@ namespace Cinema
 
                     
                     //2-я колонка со значениями
-                    //FrameworkElement valueBox;
                     TextBox valueBox = new TextBox() { Margin = new Thickness(3), VerticalAlignment = System.Windows.VerticalAlignment.Center };
                     
                     if (property.PropertyType.IsValueType || property.PropertyType == typeof(string))
                     {
                         //Для значимых отобразим само значение
-                        //valueBox. Text = property.GetValue(this.edititem).ToString();
                         Binding bind = new Binding() { Source = edititem, Path = new PropertyPath(property.Name), Mode = BindingMode.TwoWay };
                         valueBox.SetBinding(TextBox.TextProperty, bind);
                     }
                     else
                     {
-                        //Для ссылочных Получим Значение поля НАМЕ
-                        valueBox.Text = property.GetValue(this.edititem).ToString();
+                        //valueBox.Text = property.GetValue(this.edititem).ToString();
                         valueBox.IsReadOnly = true;
 
                         //Добавим Кнопочку выбора
-                        Button bt = new Button() { Content = "...", Height = 20 };
+                        Button bt = new Button() { Content = "...", Height = 20, Tag = property };
+                        bt.Click += (bts, bte) =>
+                        {
+                            Select sWindow = new Select(property.GetValue(this.edititem));
+                            sWindow.ShowDialog();
+                        };
+
                         Grid.SetColumn(bt, 3);
                         Grid.SetRow(bt, row);
                         this.DataGrid.Children.Add(bt);
+
                     }
                     Grid.SetColumn(valueBox, 1);
                     Grid.SetRow(valueBox, row++);
@@ -75,11 +79,14 @@ namespace Cinema
                 }
             }
             #endregion
-
-
         }
 
         private void Button_Close(object sender, RoutedEventArgs e)
+        {
+            this.Close();
+        }
+
+        private void Button_Save(object sender, RoutedEventArgs e)
         {
             this.Close();
         }

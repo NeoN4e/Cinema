@@ -44,16 +44,31 @@ namespace Cinema
             if (e.NewValue is Session)
             {
                 Session s = (e.NewValue as Session);
+               
                 //Выберем только те билеты которые небыли проданны
-               // this.infoView.ItemsSource = db.Chairs.SqlQuery("Select * from Chairs Where Id not in(Select Id_Chair from Tickets where Id_Session = @p0)",s.Id).ToList();
+                // this.infoView.ItemsSource = db.Chairs.SqlQuery("Select * from Chairs Where Id not in(Select Id_Chair from Tickets where Id_Session = @p0)",s.Id).ToList();
 
-         
+                //Получим колекцию проданных билетов
+                List<Chair> tikets = (from t in db.Tickets select t.Chair).ToList();
+
+                //Перебирем все сидения в Зале
                 this.InfoGrid.Children.Clear();
                 foreach (Chair item in db.Chairs.SqlQuery("Select * from Chairs Where Id_Hall =@p0", s.Id_Hall))
                 {
+                    Button b = new Button() { Margin = new Thickness(5), Content = item.C, Tag = item};
+                    b.Click += (bts, bte) =>
+                    {
+                        //Продадим билет
+                        Button bt = (bts as Button);
+                        bt.IsEnabled = false;
+                        db.Tickets.Add(new Ticket() { Chair = (bt.Tag as Chair), Price = 50, Id_Session = s.Id });
+                        db.SaveChanges();
 
+                    };
 
-                    Button b = new Button() { Margin = new Thickness(5), Content = item.C };
+                    //Если Билет продан сделаем кнопку не активной
+                    if (tikets.Contains(item)) b.IsEnabled = false;
+                    
                     Grid.SetColumn(b, item.C-1);
                     Grid.SetRow(b, item.R-1);
 
