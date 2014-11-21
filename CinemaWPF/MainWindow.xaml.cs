@@ -23,7 +23,7 @@ namespace CinemaWPF
     /// </summary>
     public partial class MainWindow : Window
     {
-        CinemaDB db = new CinemaDB();
+        CinemaDB db = StaticDB.db;
 
         public MainWindow()
         {
@@ -63,7 +63,6 @@ namespace CinemaWPF
 
             Lister lWindow = new Lister(Param);
             lWindow.ShowDialog();
-
         }
 
         private void FilmsView_SelectedItemChanged(object sender, RoutedPropertyChangedEventArgs<object> e)

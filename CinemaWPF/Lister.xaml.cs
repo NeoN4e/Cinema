@@ -35,21 +35,53 @@ namespace CinemaWPF
             datagrid.ItemsSource = (param as System.Collections.IEnumerable);
             datagrid.AutoGenerateColumns = false;
             datagrid.Columns.Add(new DataGridTextColumn() { Header = "Name", Binding = new Binding("Name"), Width = new DataGridLength(100,DataGridLengthUnitType.Star) ,IsReadOnly = true });
+            
+        }
+
+        void OpenEditWindow(object obj)
+        {
+            if (obj is Film)
+            {
+                FilmEdit fWindow = new FilmEdit(obj as Film);
+                fWindow.ShowDialog();
+            }
+
+            if (obj is Hall)
+            {
+                HallEdit hWindow = new HallEdit(obj as Hall);
+                hWindow.ShowDialog();
+            }
         }
 
         private void Button_Add(object sender, RoutedEventArgs e)
         {
-            Film f = new Film();
-
-            FilmEdit fWindow = new FilmEdit(f);
-            fWindow.ShowDialog();
-
-            (inputParam as System.Collections.IList).Add(f);
+            object item;
+            //Добавим Фильм
+            if ((inputParam as System.Collections.IEnumerable).AsQueryable().ElementType == typeof(Film))
+                item = new Film();
+            
+            //ДобавимЗал
+            else
+                item = new Hall();
+            
+            OpenEditWindow(item);
+            (inputParam as System.Collections.IList).Add(item);
         }
 
         private void Button_Close(object sender, RoutedEventArgs e)
         {
             this.Close();
+        }
+
+        private void datagrid_MouseDoubleClick(object sender, MouseButtonEventArgs e)
+        {
+        
+                //Редактируем Фильм
+                //FilmEdit fWindow = new FilmEdit(datagrid.SelectedItem as Film);
+                //fWindow.ShowDialog();
+            OpenEditWindow(datagrid.SelectedItem);
+         
+          
         }
     }
 }

@@ -12,6 +12,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 
+using System.Data.Entity;
 using CinemaLib;
 
 
@@ -23,7 +24,7 @@ namespace CinemaWPF
     public partial class FilmEdit : Window
     {
         Film edititem;
-
+  
         public FilmEdit(Film edititem)
         {
             InitializeComponent();
@@ -34,9 +35,10 @@ namespace CinemaWPF
             this.TbDescription.SetBinding(TextBox.TextProperty, new Binding() { Source = edititem, Path = new PropertyPath("Description"), Mode = BindingMode.TwoWay } );
 
             this.SessionDGrid.ItemsSource = edititem.Sessions;
-            
+            this.SessionDGrid.AutoGenerateColumns = false;
+            //this.SessionDGrid.ItemsSource = StaticDB.db.Films.Local;
             this.SessionDGrid.Columns.Add(new DataGridTextColumn() { Header = "Date", Binding = new Binding("Date") });
-            this.SessionDGrid.Columns.Add(new DataGridComboBoxColumn() { Header = "Hall", ItemsSource = new CinemaDB().Halls , SelectedItemBinding = new Binding("Hall")});
+            this.SessionDGrid.Columns.Add(new DataGridComboBoxColumn() { Header = "Hall", ItemsSource = StaticDB.db.Halls.Local , SelectedItemBinding = new Binding("Hall")});
         }
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
@@ -46,12 +48,35 @@ namespace CinemaWPF
 
         private void Button_Close(object sender, RoutedEventArgs e)
         {
+            StaticDB.db.Films.Load();
             this.Close();
         }
 
         private void Button_Save(object sender, RoutedEventArgs e)
         {
-            this.Close();
+            StaticDB.Add(edititem);
         }
+
+        private void AddSession_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                Session s = new Session();
+                edititem.Sessions.Add(s);
+                
+                //CinemaDB db = StaticDB.db;
+                //db.Films.Add(edititem);
+                //db.SaveChanges();
+
+                //db.Sessions.Add(new Session() { Film = edititem , Date = DateTime.Now});
+                //db.SaveChanges();
+                //edititem.Sessions.Add(new Session() { Film = edititem });
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+        }
+
     }
 }
