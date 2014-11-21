@@ -67,9 +67,42 @@ namespace CinemaWPF
 
         private void FilmsView_SelectedItemChanged(object sender, RoutedPropertyChangedEventArgs<object> e)
         {
-
             if (e.NewValue is Session)
-            { }
+            { 
+                Session s = (e.NewValue as Session);
+                this.HallName.Content = s.Hall.Name;
+
+                //Получим колекцию проданных билетов
+                List<Chair> tikets = (from t in db.Tickets select t.Chair).ToList();
+
+                //Перебирем все сидения в Зале
+                this.ChairGrid.Children.Clear();
+                foreach (Chair item in s.Hall.Chairs)
+                {
+                    //Добавим строку
+                    while (this.ChairGrid.RowDefinitions.Count < item.Row + 1)
+                        this.ChairGrid.RowDefinitions.Add(new RowDefinition());
+
+                    //Добавим Колонку
+                    while (this.ChairGrid.ColumnDefinitions.Count < item.Col + 1)
+                        this.ChairGrid.ColumnDefinitions.Add(new ColumnDefinition());
+
+                    Button b = new Button() { Margin = new Thickness(5), Content = String.Format("{0} / {1}", item.Row + 1, item.Col + 1) };
+                    b.Click += (bts, bte) =>
+                    {
+                        //Продадим билет
+                        Button bt = (bts as Button);
+                        bt.IsEnabled = false;
+                    };
+                    
+                    //Если Билет продан сделаем кнопку не активной
+                    if (tikets.Contains(item)) b.IsEnabled = false;
+
+                    Grid.SetColumn(b, item.Col);
+                    Grid.SetRow(b, item.Row);
+                    this.ChairGrid.Children.Add(b);
+                }
+            }
         }
 
     }

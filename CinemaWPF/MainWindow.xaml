@@ -30,5 +30,8 @@
 
             </TreeView.ItemTemplate>
         </TreeView>
+
+        <Label  x:Name="HallName"  Content="" Margin="207,29,10,0" VerticalAlignment="Top" RenderTransformOrigin="0.158,0.269" FontSize="14" FontWeight="Bold" HorizontalAlignment="Center"/>
+        <Grid   x:Name="ChairGrid" Margin="207,58,10,31"/>
     </Grid>
 </Window>
