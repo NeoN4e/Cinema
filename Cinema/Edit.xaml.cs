@@ -64,8 +64,14 @@ namespace Cinema
                         Button bt = new Button() { Content = "...", Height = 20, Tag = property };
                         bt.Click += (bts, bte) =>
                         {
-                            Select sWindow = new Select(property.GetValue(this.edititem));
-                            sWindow.ShowDialog();
+                            try
+                            {
+                                new Select(property.GetValue(this.edititem)).ShowDialog();
+                            }
+                            catch (Exception ex)
+                            {
+                                MessageBox.Show(ex.Message);
+                            }
                         };
 
                         Grid.SetColumn(bt, 3);

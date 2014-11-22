@@ -3,6 +3,6 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         Title="Select" Height="300" Width="300">
     <Grid>
-        <DataGrid x:Name="datagrid" Margin="10" Loaded="datagrid_Loaded"/>
+        <DataGrid x:Name="datagrid" Margin="10" MouseDoubleClick="datagrid_MouseDoubleClick"/>
     </Grid>
 </Window>
