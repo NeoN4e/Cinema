@@ -30,7 +30,18 @@ namespace Cinema
             try
             {
                 enumerator = Param as System.Collections.IEnumerable;
+                
+                datagrid.AutoGenerateColumns = false;
                 datagrid.ItemsSource = enumerator;
+                datagrid.IsReadOnly = true;
+
+                foreach (System.Reflection.PropertyInfo item in enumerator.AsQueryable().ElementType.GetProperties())
+                {
+                    if (item.Name.Substring(0,2) != "Id" && (item.PropertyType.IsValueType || item.PropertyType == typeof(string))) // Исключим ИД
+                    {
+                        datagrid.Columns.Add(new DataGridTextColumn() { Header = item.Name, Binding = new Binding(item.Name), IsReadOnly = true });
+                    }
+                }
             }
             catch(Exception ex)
             {
@@ -38,38 +49,11 @@ namespace Cinema
                 this.Close();
             }
 
-            //IQueryable enumerator = (Param as IQueryable);
+       }
 
-            //datagrid.ItemsSource = enumerator;
-            //datagrid.AutoGenerateColumns = false;
-            //datagrid.Columns.Clear();
-
-            //foreach (var item in enumerator.ElementType.GetProperties())
-            //{
-            //    if (!item.Name.Contains("_")) // Исключим ИД
-            //    {
-            //        //if (item.PropertyType.IsValueType || item.PropertyType == typeof(string))
-            //        datagrid.Columns.Add(new DataGridTextColumn() { Header = item.Name, Binding = new Binding(item.Name), IsReadOnly = true });
-
-            //        //else
-            //        //datagrid.Columns.Add(new DataGridComboBoxColumn() { Header = item.Name, ItemsSource = db.Authors, SelectedItemBinding = new Binding(item.Name) });
-
-            //    }
-
-
-            //}
-        }
-
-        private void datagrid_Loaded(object sender, RoutedEventArgs e)
+        private void datagrid_MouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
-            //Определим колонки ДатаГрид
-
-            //Переберем все элементы входящей коллекции
-            //foreach (var item in enumerator)
-            //{ 
-
-            //}
-            
+            this.Close();
         }
 
     }
