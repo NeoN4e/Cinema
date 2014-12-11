@@ -15,7 +15,7 @@
             <MenuItem x:Name="MenuCatalogs" Header="Catalogs">
             </MenuItem>
         </Menu>
-        <TreeView x:Name="FilmsView" HorizontalAlignment="Left" Width="197" Margin="5,29,0,5" SelectedItemChanged="FilmsView_SelectedItemChanged">
+        <TreeView x:Name="FilmsView" HorizontalAlignment="Left" Width="197" Margin="5,29,0,5" SelectedItemChanged="FilmsView_SelectedItemChanged" Background="{x:Null}">
             <TreeView.ItemTemplate>
                 <HierarchicalDataTemplate ItemsSource="{Binding Path=Sessions}">
                     <TextBlock Text="{Binding Path=Name}"/>

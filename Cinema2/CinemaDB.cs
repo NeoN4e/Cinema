@@ -15,10 +15,30 @@
             Database.SetInitializer(new MigrateDatabaseToLatestVersion<CinemaDB, Configuration>());
         }
         
+        /// <summary>
+        /// Список Фильмов
+        /// </summary>
         public DbSet<Film> Films { get; set; }
+
+        /// <summary>
+        /// Список Сеансов
+        /// </summary>
         public DbSet<Session> Sessions { get; set; }
+
+        /// <summary>
+        /// Список Залов
+        /// </summary>
         public DbSet<Hall> Halls { get; set; }
+
+        /// <summary>
+        /// Список проданных билетов
+        /// </summary>
         public DbSet<Ticket> Tickets { get; set; }
+
+        /// <summary>
+        /// Разные категории стульчиков (Стандарт Вип ....)
+        /// </summary>
+        public DbSet<ChairCategory> Category { get; set; }
     }
 
 }

@@ -30,7 +30,7 @@ namespace CinemaWPF
             InitializeComponent();
             this.edititem = edititem;
 
-            this.Date.DisplayDate = DateTime.Now;
+            this.Date.Value = DateTime.Now;
 
             //Binding
             this.Hall.ItemsSource = StaticDB.db.Halls.Local;
@@ -60,8 +60,7 @@ namespace CinemaWPF
 
         private void AddSession_Click(object sender, RoutedEventArgs e)
         {
-        
-            Session s = new Session() { Film = edititem,Hall = this.Hall.SelectedItem as Hall, Date = this.Date.DisplayDate};
+            Session s = new Session() { Film = edititem,Hall = this.Hall.SelectedItem as Hall, Date = (DateTime)this.Date.Value};
             edititem.Sessions.Add(s);
             this.SessionDGrid.Items.Refresh();
         } 

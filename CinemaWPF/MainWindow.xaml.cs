@@ -42,6 +42,7 @@ namespace CinemaWPF
                 //Пункты меню
                 MenuCatalogs.Items.Add(new MenuItem() { Header = "Films", Command = uicmd, CommandParameter = db.Films.Local });
                 MenuCatalogs.Items.Add(new MenuItem() { Header = "Halls", Command = uicmd, CommandParameter = db.Halls.Local });
+                MenuCatalogs.Items.Add(new MenuItem() { Header = "Category", Command = uicmd, CommandParameter = db.Category.Local });
             }
             catch (Exception ex)
             { MessageBox.Show(ex.Message); }
@@ -52,6 +53,7 @@ namespace CinemaWPF
             {
                 db.Films.Load();
                 db.Halls.Load();
+                db.Category.Load();
                 this.FilmsView.ItemsSource = db.Films.Local;
             }
             catch (Exception ex)

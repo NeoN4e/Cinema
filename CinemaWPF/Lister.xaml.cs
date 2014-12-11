@@ -51,19 +51,27 @@ namespace CinemaWPF
                 HallEdit hWindow = new HallEdit(obj as Hall);
                 hWindow.ShowDialog();
             }
+
+            if (obj is ChairCategory)
+            {
+                CategoryEdit cWindow = new CategoryEdit(obj as ChairCategory);
+                cWindow.ShowDialog();
+            }
         }
 
         private void Button_Add(object sender, RoutedEventArgs e)
         {
             object item;
             //Добавим Фильм
-            if ((inputParam as System.Collections.IEnumerable).AsQueryable().ElementType == typeof(Film))
-                item = new Film();
+            //if ((inputParam as System.Collections.IEnumerable).AsQueryable().ElementType == typeof(Film))
+            //    item = new Film();
             
-            //ДобавимЗал
-            else
-                item = new Hall();
+            ////ДобавимЗал
+            //if ((inputParam as System.Collections.IEnumerable).AsQueryable().ElementType == typeof(Hall))
+            //    item = new Hall();
             
+            Type iType = (inputParam as System.Collections.IEnumerable).AsQueryable().ElementType;
+            item = Activator.CreateInstance(iType);
             OpenEditWindow(item);
             //(inputParam as System.Collections.IList).Add(item);
         }

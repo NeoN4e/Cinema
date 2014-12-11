@@ -39,6 +39,9 @@ namespace CinemaWPF
             if (obj is Ticket)
                 db.Tickets.Add(obj as Ticket);
 
+            if (obj is ChairCategory)
+                db.Category.Add(obj as ChairCategory);
+
             try
             {
                 db.SaveChanges();
