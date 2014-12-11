@@ -3,6 +3,7 @@
     using System;
     using System.Data.Entity;
     using System.Data.Entity.Infrastructure;
+    using CinemaLib.Migrations; 
 
     public class CinemaDB : DbContext
     {
@@ -10,7 +11,8 @@
         {
             //http://habrahabr.ru/post/121132/
             //Database.SetInitializer(new DropCreateDatabaseIfModelChanges<CinemaDB>());
-            Database.SetInitializer(new CreateDatabaseIfNotExists<CinemaDB>());
+            //Database.SetInitializer(new CreateDatabaseIfNotExists<CinemaDB>());
+            Database.SetInitializer(new MigrateDatabaseToLatestVersion<CinemaDB, Configuration>());
         }
         
         public DbSet<Film> Films { get; set; }

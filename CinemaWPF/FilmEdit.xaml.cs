@@ -24,13 +24,13 @@ namespace CinemaWPF
     public partial class FilmEdit : Window
     {
         Film edititem;
-  
+        
         public FilmEdit(Film edititem)
         {
             InitializeComponent();
             this.edititem = edititem;
 
-            this.Date.Text = DateTime.Now.ToString();
+            this.Date.DisplayDate = DateTime.Now;
 
             //Binding
             this.Hall.ItemsSource = StaticDB.db.Halls.Local;
@@ -42,7 +42,7 @@ namespace CinemaWPF
             this.SessionDGrid.ItemsSource = edititem.Sessions;
             this.SessionDGrid.AutoGenerateColumns = false;
             //this.SessionDGrid.ItemsSource = StaticDB.db.Films.Local;
-            this.SessionDGrid.Columns.Add(new DataGridTextColumn() { Header = "Date", Binding = new Binding("Date") });
+            this.SessionDGrid.Columns.Add(new DataGridTextColumn() { Header = "Date", Binding = new Binding("Date") { StringFormat="s"} });
             this.SessionDGrid.Columns.Add(new DataGridComboBoxColumn() { Header = "Hall", ItemsSource = StaticDB.db.Halls.Local, DisplayMemberPath = "Name" ,SelectedItemBinding = new Binding("Hall") });
         }
 
@@ -61,7 +61,7 @@ namespace CinemaWPF
         private void AddSession_Click(object sender, RoutedEventArgs e)
         {
         
-            Session s = new Session() { Film = edititem,Hall = this.Hall.SelectedItem as Hall, Date = DateTime.Parse(this.Date.Text)};
+            Session s = new Session() { Film = edititem,Hall = this.Hall.SelectedItem as Hall, Date = this.Date.DisplayDate};
             edititem.Sessions.Add(s);
             this.SessionDGrid.Items.Refresh();
         } 

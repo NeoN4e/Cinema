@@ -41,7 +41,7 @@ namespace CinemaWPF
                     this.ChairGrid.ColumnDefinitions.Add(new ColumnDefinition());
 
 
-                Button b = new Button() { Margin = new Thickness(5), Content = String.Format("{0} / {1}", item.Row + 1, item.Col + 1) };
+                Button b = new Button() { Margin = new Thickness(5), Content = item.Col + 1, Background = new SolidColorBrush( (Color)ColorConverter.ConvertFromString("#FF00FFFF") ) };
                 b.Click += (bts, bte) =>
                 {
                     //Удалим кресло
@@ -57,17 +57,20 @@ namespace CinemaWPF
         private void Button_Click(object sender, RoutedEventArgs e)
         {
             this.ChairGrid.Children.Clear();
-            for (int col = 0; col < int.Parse(this.Columns.Text); col++)
+            this.ChairGrid.ColumnDefinitions.Clear();
+            this.ChairGrid.RowDefinitions.Clear();
+
+            for (int row = 0; row < int.Parse(this.Rows.Text); row++)
             {
                 //Добавим строку
-                this.ChairGrid.RowDefinitions.Add(new RowDefinition());
+                this.ChairGrid.RowDefinitions.Add(new RowDefinition() );
 
-                for (int row = 0; row < int.Parse(this.Rows.Text); row++)
+                for (int col = 0; col < int.Parse(this.Columns.Text); col++)   
                 {
-                    if (col == 0) //Добавим Колонку
+                    if (row == 0) //Добавим Колонку
                         this.ChairGrid.ColumnDefinitions.Add(new ColumnDefinition());
 
-                    Button b = new Button() { Margin = new Thickness(5), Content = String.Format("{0} / {1}",row+1,col+1)};
+                    Button b = new Button() { Margin = new Thickness(5), Content = col+1};
                     
                     b.Click +=  (bts, bte) =>
                     {

@@ -78,6 +78,9 @@
     </Reference>
     <Reference Include="UIAutomationProvider" />
     <Reference Include="UIAutomationTypes" />
+    <Reference Include="VIBlend.WPF.Editors">
+      <HintPath>..\..\..\..\Program Files (x86)\VIBlend\WPF Controls v.5.0\VIBlend.WPF.Editors.dll</HintPath>
+    </Reference>
     <Reference Include="WindowsBase" />
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />

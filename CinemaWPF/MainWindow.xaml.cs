@@ -34,13 +34,17 @@ namespace CinemaWPF
         {
             #region Инициализация Меню
             //Обработчик меню
-            RoutedUICommand uicmd = new RoutedUICommand("MyCommand", "MyCommand", typeof(ApplicationCommands));
-            MenuCatalogs.CommandBindings.Add(new CommandBinding(uicmd, MenuCatalogss_Click));
+            try
+            {
+                RoutedUICommand uicmd = new RoutedUICommand("MyCommand", "MyCommand", typeof(ApplicationCommands));
+                MenuCatalogs.CommandBindings.Add(new CommandBinding(uicmd, MenuCatalogss_Click));
 
-            //Пункты меню
-            MenuCatalogs.Items.Add(new MenuItem() { Header = "Films", Command = uicmd, CommandParameter = db.Films.Local });
-            MenuCatalogs.Items.Add(new MenuItem() { Header = "Halls", Command = uicmd, CommandParameter = db.Halls.Local });
-
+                //Пункты меню
+                MenuCatalogs.Items.Add(new MenuItem() { Header = "Films", Command = uicmd, CommandParameter = db.Films.Local });
+                MenuCatalogs.Items.Add(new MenuItem() { Header = "Halls", Command = uicmd, CommandParameter = db.Halls.Local });
+            }
+            catch (Exception ex)
+            { MessageBox.Show(ex.Message); }
             #endregion
 
             //Заполним таблицу фильмов
@@ -90,7 +94,8 @@ namespace CinemaWPF
                     while (this.ChairGrid.ColumnDefinitions.Count < item.Col + 1)
                         this.ChairGrid.ColumnDefinitions.Add(new ColumnDefinition());
 
-                    Button b = new Button() { Tag=item,Margin = new Thickness(5), Content = String.Format("{0} / {1}", item.Row + 1, item.Col + 1) };
+                    Button b = new Button() { Tag=item,Margin = new Thickness(5), Content = item.Col + 1 };
+                    b.Background = new SolidColorBrush((Color)ColorConverter.ConvertFromString(item.Category.Color));
                     b.Click += (bts, bte) =>
                     {
                         //Продадим билет
