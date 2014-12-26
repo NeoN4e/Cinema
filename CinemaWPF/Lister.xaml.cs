@@ -87,7 +87,10 @@ namespace CinemaWPF
                 //Редактируем Фильм
                 //FilmEdit fWindow = new FilmEdit(datagrid.SelectedItem as Film);
                 //fWindow.ShowDialog();
-            OpenEditWindow(datagrid.SelectedItem);
+            if (datagrid.SelectedItem == CollectionView.NewItemPlaceholder)
+            { Button_Add(sender, null); }
+            else
+                OpenEditWindow(datagrid.SelectedItem);
          
           
         }
